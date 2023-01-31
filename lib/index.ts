@@ -1,14 +1,9 @@
-declare module "lmdb" {
-  // currently lmdb doesn't have typings for this export
-  export function clearKeptObjects(): void
-}
-
 import { RootDatabase, clearKeptObjects, open } from "lmdb"
 import os from "os"
 import path from "path"
 
 const randomFileName =
-  Math.random().toString(36).substring(2, 15) + "-lmdb-backed-array"
+  Math.random().toString(36).substring(2, 15) + `-lmdb-backed-array`
 const filePath = path.join(os.tmpdir(), randomFileName)
 
 class LMDBArray {

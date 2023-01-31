@@ -1,4 +1,4 @@
-import { beforeAll, assert, expect, test } from "vitest"
+import { beforeAll, expect, test } from "vitest"
 import LMDBArray from "./"
 
 let array: LMDBArray
@@ -7,7 +7,7 @@ beforeAll(() => {
   array = new LMDBArray()
 })
 
-test("push", () => {
+test(`push`, () => {
   array.push(12)
   array.push(13)
   array.push(14)
