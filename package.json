@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^0.28.3"
+  },
+  "dependencies": {
+    "lmdb": "^2.7.7"
+  }
+}
