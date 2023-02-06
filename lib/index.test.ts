@@ -1,5 +1,5 @@
 import { beforeAll, expect, test } from "vitest"
-import LMDBArray from "./"
+import { LMDBArray } from "./"
 
 let array: LMDBArray
 

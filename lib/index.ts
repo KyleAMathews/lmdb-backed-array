@@ -1,12 +1,13 @@
+// @ts-ignore
 import { RootDatabase, clearKeptObjects, open } from "lmdb"
-import os from "os"
-import path from "path"
+import * as os from "os"
+import * as path from "path"
 
 const randomFileName =
   Math.random().toString(36).substring(2, 15) + `-lmdb-backed-array`
 const filePath = path.join(os.tmpdir(), randomFileName)
 
-class LMDBArray {
+export class LMDBArray {
   _nextKey: number
   db: RootDatabase
   length: number
@@ -15,7 +16,10 @@ class LMDBArray {
     this.db = open({
       path: filePath,
       compression: true,
-      cache: true,
+      cache: false
+      // cache: {
+        // cacheSize: 1000
+      // },
     })
 
     this.length = 0
@@ -58,4 +62,3 @@ class LMDBArray {
   }
 }
 
-export default LMDBArray

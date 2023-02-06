@@ -1,9 +1,17 @@
 {
+  "name": "lmdb-array",
+  "type": "module",
+  "source": "lib/index.ts",
+  "module": "./dist/lmdb-array.module.js",
+  "main": "./dist/lmdb-array.cjs",
   "scripts": {
+    "build": "tsc lib/index.ts",
     "test": "vitest",
     "lint:fix": "eslint --fix --ext js,.ts lib/"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "eslint": "^8.33.0",
@@ -12,8 +20,10 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^2.8.3",
+    "process-top": "^1.2.0",
     "typescript": "^4.9.5",
-    "vitest": "^0.28.3"
+    "vitest": "^0.28.3",
+    "yargs": "^17.6.2"
   },
   "dependencies": {
     "lmdb": "^2.7.7"
