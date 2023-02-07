@@ -25,11 +25,14 @@ function makePost() {
 }
 
 const db: RootDatabase = open(`benchmark-data`, { compression: true })
+const dbInt: RootDatabase = open(`benchmark-data-int`, { compression: true })
 
 function loopWithPause(i = 0) {
   if (i === 1000000) return
   const post = makePost()
   db.put(i, post)
+  const number = normalDistribution(1500, 1000)
+  dbInt.put(i, number)
   if (i % 500 === 0) {
     console.log(i)
     setTimeout(() => {

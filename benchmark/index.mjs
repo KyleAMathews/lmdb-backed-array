@@ -14,7 +14,16 @@ function mem() {
 
 const args = yargs(hideBin(process.argv)).parse()
 
-const db = open(`benchmark-data`, { compression: true, cache: false })
+let db
+
+if (args.dataType === `object`) {
+  db = open(`benchmark-data`, { compression: true, cache: false })
+} else if (args.dataType === `number`) {
+  db = open(`benchmark-data`, { compression: true, cache: false })
+} else {
+  console.log(`set which data type to use with --data-type=object (or number)`)
+  process.exit(1)
+}
 
 if (args.benchmark === `open`) {
   db.getRange({ start: 0, end: args.items }).forEach((i) => i)
@@ -22,31 +31,38 @@ if (args.benchmark === `open`) {
 
 if (args.benchmark === `js-array`) {
   const array = []
-  db.getRange({ start: 0, end: args.items }).forEach((i) => {
-    array.push(i)
+  db.getRange({ start: 0, end: args.items }).forEach(({ key, value }) => {
+    array.push(value)
   })
   mem()
 }
 
 if (args.benchmark === `lmdb-array`) {
   const array = new LMDBArray()
-  const chunks = 20
-  const chunkSize = Math.round(args.items / chunks)
-  console.log({ chunks, chunkSize })
-  for (let chunkI = 0; chunkI < chunks; chunkI++) {
-    db.getRange({
-      start: chunkI * chunkSize,
-      end: chunkI * chunkSize + chunkSize,
-    }).forEach(({ key, value }) => {
-      array.push(value)
-    })
-    console.time(`flushed`)
-    await array.db.flushed
-    clearKeptObjects()
-    mem()
-    console.timeEnd(`flushed`)
-    console.log({ chunkI })
-  }
+  db.getRange({ start: 0, end: args.items }).forEach(({ key, value }) => {
+    array.push(value)
+    if (key % 30000 == 0) {
+      clearKeptObjects()
+      mem()
+    }
+  })
+  // const chunks = 20
+  // const chunkSize = Math.round(args.items / chunks)
+  // console.log({ chunks, chunkSize })
+  // for (let chunkI = 0; chunkI < chunks; chunkI++) {
+  // db.getRange({
+  // start: chunkI * chunkSize,
+  // end: chunkI * chunkSize + chunkSize,
+  // }).forEach(({ key, value }) => {
+  // array.push(value)
+  // })
+  // console.time(`flushed`)
+  // await array.db.flushed
+  // clearKeptObjects()
+  // mem()
+  // console.timeEnd(`flushed`)
+  // console.log({ chunkI })
+  // }
 }
 
 if (args.benchmark === `raw-lmdb`) {

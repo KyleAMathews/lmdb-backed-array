@@ -26,13 +26,13 @@ test(`insertAt`, async () => {
   array.insertAt(456, 2)
   expect(array.getElementAtIndex(2)).eq(456)
   expect(array.length).eq(4)
-  array.insertAt(456, 4)
-  expect(array.getElementAtIndex(4)).eq(456)
-  expect(array.length).eq(5)
+  array.insertAt(456, 3)
+  expect(array.getElementAtIndex(3)).eq(456)
+  expect(array.length).eq(4)
 })
 
-test(`deleteAt`, () => {
+test(`deleteAt`, async () => {
   array.deleteAt(3)
-  expect(array.length).eq(4)
+  expect(array.length).eq(3)
   expect(array.getElementAtIndex(3)).toBeUndefined()
 })

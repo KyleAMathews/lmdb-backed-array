@@ -1,5 +1,6 @@
 // @ts-ignore
 import { RootDatabase, clearKeptObjects, open } from "lmdb"
+const MAXIMUM_KEY = 9007199254740991
 
 export class LMDBArray {
   _nextKey: number
@@ -9,8 +10,10 @@ export class LMDBArray {
   constructor() {
     this.db = open({
       compression: true,
-      // cache: false
-      cache: true,
+      // cache: false,
+      cache: {
+        // expirer: false
+      },
       noMemInit: true,
       useWritemap: true,
       noSync: true,
@@ -48,11 +51,14 @@ export class LMDBArray {
   }
   insertAt(item: any, index: number) {
     const exists = this.db.get(index)
+    console.log({ item, index, exists })
     this.db.put(index, item)
     if (!exists) {
       this.length++
     }
     return this
   }
+  toJSON() {
+    return this.db.getRange({ end: MAXIMUM_KEY }).asArray
+  }
 }
-

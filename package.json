@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc lib/index.ts",
     "test": "vitest",
-    "lint:fix": "eslint --fix --ext js,.ts lib/"
+    "lint:fix": "eslint --fix --ext js,.ts lib/ benchmark/"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
