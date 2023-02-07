@@ -1,9 +1,7 @@
 import { open, clearKeptObjects } from "lmdb"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
-import { LMDBArray } from "../dist/lmdb-array.module.js"
-import * as os from "os"
-import * as path from "path"
+import { LMDBArray } from "../lib/index.ts"
 
 import processTop from "process-top"
 const ptop = processTop()
@@ -53,12 +51,8 @@ if (args.benchmark === `lmdb-array`) {
 
 if (args.benchmark === `raw-lmdb`) {
   async function benchmark() {
-    const randomFileName =
-      Math.random().toString(36).substring(2, 15) + `-lmdb-backed-array`
-    const filePath = path.join(os.tmpdir(), randomFileName)
     mem()
     const newDb = open({
-      path: filePath,
       compression: true,
       cache: {
         cacheSize: 1000,
