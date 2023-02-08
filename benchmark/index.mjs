@@ -6,9 +6,11 @@ import { LMDBArray } from "../lib/index.ts"
 import processTop from "process-top"
 const ptop = processTop()
 function mem() {
-  if (global.gc) {
-    global.gc()
-  }
+  // if (global.gc) {
+    // console.time(`gc`)
+    // global.gc()
+    // console.timeEnd(`gc`)
+  // }
   console.log(ptop.toString())
 }
 
@@ -19,7 +21,7 @@ let db
 if (args.dataType === `object`) {
   db = open(`benchmark-data`, { compression: true, cache: false })
 } else if (args.dataType === `number`) {
-  db = open(`benchmark-data`, { compression: true, cache: false })
+  db = open(`benchmark-data-int`, { compression: true, cache: false })
 } else {
   console.log(`set which data type to use with --data-type=object (or number)`)
   process.exit(1)
@@ -39,13 +41,18 @@ if (args.benchmark === `js-array`) {
 
 if (args.benchmark === `lmdb-array`) {
   const array = new LMDBArray()
-  db.getRange({ start: 0, end: args.items }).forEach(({ key, value }) => {
+  for (let {key, value} of db.getRange({ start: 0, end: args.items })) {
+    // console.log({key, value})
     array.push(value)
-    if (key % 30000 == 0) {
+    if (key % 3000 == 0) {
+      console.time(`flushing & waiting`)
+      // await array.db.flushed
+      await new Promise(resolve => setTimeout(resolve, 50))
       clearKeptObjects()
       mem()
+      console.timeEnd(`flushing & waiting`)
     }
-  })
+  }
   // const chunks = 20
   // const chunkSize = Math.round(args.items / chunks)
   // console.log({ chunks, chunkSize })

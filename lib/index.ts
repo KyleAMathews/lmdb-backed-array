@@ -10,10 +10,7 @@ export class LMDBArray {
   constructor() {
     this.db = open({
       compression: true,
-      // cache: false,
-      cache: {
-        // expirer: false
-      },
+      cache: true,
       noMemInit: true,
       useWritemap: true,
       noSync: true,
@@ -51,7 +48,6 @@ export class LMDBArray {
   }
   insertAt(item: any, index: number) {
     const exists = this.db.get(index)
-    console.log({ item, index, exists })
     this.db.put(index, item)
     if (!exists) {
       this.length++
