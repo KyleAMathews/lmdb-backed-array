@@ -16,3 +16,8 @@ time ./benchmark/memusg npx tsx --expose-gc benchmark/index.mjs --data-type=obje
 
 ### Raw copy from one LMDB db to another
 time ./benchmark/memusg npx tsx --expose-gc benchmark/index.mjs --data-type=object --benchmark=raw-lmdb --items=600000
+
+### Reading list
+- LMDB npm package: https://www.npmjs.com/package/lmdb
+- LMDB: http://www.lmdb.tech/doc/
+
